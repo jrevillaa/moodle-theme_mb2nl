@@ -38,13 +38,13 @@ $html .= theme_mb2nl_loading_screen();
 $html .= '<div class="page-outer position-relative' . theme_mb2nl_bsfcls(1, 'column') . '" id="page"' .
 theme_mb2nl_ajax_data_atts() . '>';
 $html .= '<div class="pagelayout' . theme_mb2nl_bsfcls(1, 'row') . '">';
-$html .= '<div class="pagelayout-b box-login-cad ' . theme_mb2nl_bsfcls(1, 'column') . '" >';
-$html .= '<div class="box-cad-login pagelayout-content' . theme_mb2nl_bsfcls(1, 'column') . '">';
+$html .= '<div class="pagelayout-b' . theme_mb2nl_bsfcls(1, 'column') . '">';
+$html .= '<div class="pagelayout-content' . theme_mb2nl_bsfcls(1, 'column') . '">';
 $html .= '<header class="login-header">';
 $html .= '<div class="container-fluid">';
 $html .= '<div class="row">';
 $html .= '<div class="col-md-12">';
-//$html .= $OUTPUT->theme_part('logo');
+$html .= $OUTPUT->theme_part('logo');
 $html .= '</div>';
 $html .= '</div>';
 $html .= '</div>';

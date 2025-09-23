@@ -29,7 +29,7 @@ global $PAGE, $OUTPUT;
 $socilatt = theme_mb2nl_theme_setting($PAGE, 'socialtt') == 1 ? 'top' : '';
 $footct = theme_mb2nl_format_txt(theme_mb2nl_theme_setting($PAGE, 'foottext'), FORMAT_HTML);
 $html = '';
-/*
+
 $html .= '<footer class="login-footer">';
 $html .= '<div class="container-fluid">';
 $html .= '<div class="row">';
@@ -48,7 +48,7 @@ $html .= '</div>';
 $html .= '</div>';
 $html .= '</div>';
 $html .= '</div>';
-$html .= '</footer>'; */
+$html .= '</footer>';
 $html .= '</div> <!--  end pagelayout-content -->';
 $html .= '</div> <!--  end pagelayout-b -->';
 $html .= '</div> <!--  end .pagelayout -->';

@@ -1,18 +1,7 @@
 /* ================ GENERAL STYLE FOR LOGIN FORM ON LOGIN PAGE */
 
-
-.cad-input-label {
-  display: block;
-  color: $accent1; /* azul fuerte */
-  font-size: 1.1rem;
-  text-align: left; 
-}
-
 .custom-login,
 .default-login {
-	.title-cad {
-		color: $accent1;
-	}
 	#login {
 
 		input {
@@ -26,9 +15,6 @@
 				height: 42px;
 				padding-left: 35px;
 				width: 100%;
-				border: none;
-  				outline: none;
-				border-bottom: 2px solid $accent1;
 
 				&:focus {
 					border-color: $color_success;
@@ -48,18 +34,18 @@
 				width: 38px;
 				font-size: 20px;
 				text-align: center;
-				line-height: 60px !important;
+				line-height: 30px;
 				top: 50%;
 				margin-top: -15px;
 				left: 0;
 				background-color: transparent;
-				color: $accent1;
+				color: rgba(0,0,0,.2);
 			}
 
 			.pass_show {
 				position: absolute;
 				height: 30px;
-				line-height: 60px !important;
+				line-height: 30px;
 				top: 50%;
 				margin-top: -15px;
 				display: none;
@@ -87,7 +73,7 @@
 		}
 
 		.form-item {
-			margin-bottom: 2.3rem;
+			margin-bottom: 1.35rem;
 		}
 
 		input[type="hidden"] + .form-group {
@@ -249,7 +235,7 @@
 
 		&:before,
 		.page-bgimg {
-			/* right: var(--mb2-lpagew); */
+			right: var(--mb2-lpagew);
 		}
 
 		&.dir-rtl {

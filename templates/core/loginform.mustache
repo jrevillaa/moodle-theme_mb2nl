@@ -95,7 +95,7 @@
 
 <div class="loginform">
     <div class="loginleft">
-        <h2 class="login-heading h3 title-cad">Iniciar Sesión</h2>
+        <h2 class="login-heading h3">{{#str}}login{{/str}}</h2>
         {{#maintenance}}
             <div class="alert alert-danger login-maintenance">
                 {{{maintenance}}}
@@ -132,7 +132,7 @@
             <form class="login-form" action="{{loginurl}}" method="post" id="login">
                 <input type="hidden" name="logintoken" value="{{logintoken}}">
                 <div class="login-form-username form-group form-item">
-                    <label for="username" class="cad-input-label">
+                    <label for="username" class="sr-only">
                         {{^canloginbyemail}}
                             {{#str}} username {{/str}}
                         {{/canloginbyemail}}
@@ -147,7 +147,7 @@
                         !}}autocomplete="username">
                 </div>
                 <div class="login-form-password form-group form-item">
-                    <label for="password" class="cad-input-label">{{#str}} password {{/str}}</label>
+                    <label for="password" class="sr-only">{{#str}} password {{/str}}</label>
                     <input type="password" name="password" id="password" value="" {{!
                         !}}placeholder="{{#str}}password{{/str}}" {{!
                         !}}autocomplete="current-password">
