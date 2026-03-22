@@ -21,8 +21,137 @@
  * @license   PHP and HTML: http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later. Other parts: http://themeforest.net/licenses
  *
  */
+/**
+ * JAIR
+ */
 
+/**
+ * Method to display responsive slider
+ */
+function theme_mb2nl_responsive_slider() {
+    global $CFG, $PAGE;
+    
+    // Cargar las clases necesarias
+    require_once($CFG->dirroot . '/local/responsiveslides/classes/api.php');
+    require_once($CFG->dirroot . '/local/responsiveslides/classes/helper.php');
+    
+    $slides = ResponsiveSlidesApi::get_device_slides();
+    $device = ResponsiveSlidesApi::detect_device();
+    $uniqid = uniqid();
+    $output = '';
+    
+    if (empty($slides)) {
+        if (is_siteadmin()) {
+            return '<div class="alert alert-info" style="max-width:90%;margin:1rem auto;" role="alert">' .
+            'No hay slides configurados para ' . $device . '. <a href="' . $CFG->wwwroot . '/local/responsiveslides/index.php">Configurar slides</a>' .
+            '</div>';
+        }
+        return '';
+    }
+    
+    // Agregar CSS y JS específico
+    //$PAGE->requires->css('/local/responsiveslides/styles/slider.css');
+    //$PAGE->requires->js('/local/responsiveslides/js/slider.js');
+    
+    $output .= '<div id="main-slider" class="responsiveslider responsiveslider-' . $device . ' responsiveslider' . $uniqid . '">';
+    $output .= '<div class="responsiveslider-inner">';
+    $output .= '<ul class="responsiveslider-list" data-device="' . $device . '" data-slides="' . count($slides) . '">';
+    
+    foreach ($slides as $slide) {
+        if (!ResponsiveSlidesHelper::can_see($slide)) {
+            continue;
+        }
+        
+        $output .= theme_mb2nl_responsive_slider_item($slide, $device);
+    }
+    
+    $output .= '</ul>';
+    $output .= theme_mb2nl_responsive_slider_controls($slides, $device);
+    $output .= '</div>';
+    $output .= '</div>';
+    
+    return $output;
+}
 
+/**
+ * Method to display responsive slider item
+ */
+function theme_mb2nl_responsive_slider_item($slide, $device) {
+    $output = '';
+    $attribs = json_decode($slide->attribs ?? '{}', true);
+    
+    $output .= '<li class="responsiveslider-item device-' . $device . '">';
+    
+    // Imagen del slide
+    $output .= '<div class="responsiveslider-media">';
+    if (!empty($slide->link_url)) {
+        $target = $slide->link_target == '_blank' ? ' target="_blank"' : '';
+        $output .= '<a href="' . $slide->link_url . '" ' . $target . '>' ;
+    }
+    $output .= '<img src="' . ResponsiveSlidesHelper::get_image_url($slide->id) . '" alt="' . htmlspecialchars($slide->title) . '" class="responsiveslider-img">';
+    if (!empty($slide->link_url)) {
+        $output .=  '</a>';
+    }
+    $output .= '</div>';
+    
+    // Contenido del slide (si existe)
+    /*
+    if ($slide->title || $slide->description) {
+        $output .= '<div class="responsiveslider-caption device-' . $device . '-caption">';
+        $output .= '<div class="responsiveslider-caption-inner">';
+        
+        if ($slide->title) {
+            $output .= '<h2 class="responsiveslider-title">' . htmlspecialchars($slide->title) . '</h2>';
+        }
+        
+        if ($slide->description) {
+            $output .= '<div class="responsiveslider-description">' . $slide->description . '</div>';
+        }
+        
+        // Botón si hay link
+        if (!empty($attribs['link'])) {
+            $target = !empty($attribs['target']) ? ' target="_blank"' : '';
+            $button_text = $attribs['button_text'] ?? 'Leer más';
+            $output .= '<a href="' . $attribs['link'] . '" class="responsiveslider-btn"' . $target . '>' . $button_text . '</a>';
+        }
+        
+        $output .= '</div>';
+        $output .= '</div>';
+    }
+    */
+    $output .= '</li>';
+    
+    return $output;
+}
+
+/**
+ * Method to display slider controls
+ */
+function theme_mb2nl_responsive_slider_controls($slides, $device) {
+    $output = '';
+    
+    if (count($slides) > 1000000) {
+        // Controles de navegación
+        $output .= '<div class="responsiveslider-controls">';
+        $output .= '<button class="responsiveslider-prev" aria-label="Anterior"><i class="fa fa-chevron-left"></i></button>';
+        $output .= '<button class="responsiveslider-next" aria-label="Siguiente"><i class="fa fa-chevron-right"></i></button>';
+        $output .= '</div>';
+        
+        // Indicadores
+        $output .= '<div class="responsiveslider-indicators">';
+        foreach ($slides as $index => $slide) {
+            $active = $index === 0 ? ' active' : '';
+            $output .= '<button class="responsiveslider-indicator' . $active . '" data-slide="' . $index . '" aria-label="Slide ' . ($index + 1) . '"></button>';
+        }
+        $output .= '</div>';
+    }
+    
+    return $output;
+}
+
+/**
+ * JaIR
+ */
 
 /**
  *
@@ -42,6 +171,19 @@ function theme_mb2nl_slider($items = []) {
     if (!$slider) {
         return;
     }
+
+    // **NUEVO: Verificar si usar ResponsiveSlides**
+    //$use_responsive = theme_mb2nl_theme_setting($PAGE, 'use_responsiveslides', true);
+    
+    //if ($use_responsive && file_exists($CFG->dirroot . '/local/responsiveslides/classes/api.php')) {
+    if (file_exists($CFG->dirroot . '/local/responsiveslides/classes/api.php')) {
+        // Cargar recursos CSS/JS para ResponsiveSlides
+        //$PAGE->requires->css('/local/responsiveslides/styles/slider.css');
+        //$PAGE->requires->js('/local/responsiveslides/js/slider.js');
+
+        return theme_mb2nl_responsive_slider();
+    }
+
 
     // Cehck if local slides plugi is installed.
     if (! file_exists($CFG->dirroot . '/local/mb2slides/index.php')) {
